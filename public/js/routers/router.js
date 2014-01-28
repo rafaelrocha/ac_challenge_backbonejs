@@ -2,21 +2,31 @@ define([
   'jquery',
   'backbone',
   'models/user',
+  'models/users',
+  'models/top-users-view-model',
   'views/user-view',
   'views/question-view',
-  'views/result-view'
+  'views/result-view',
+  'views/top-users-view'
 ],
-function ($, Backbone, User, UserView, QuestionView, ResultView) {
+function ($, Backbone, User, Users, TopUsersViewModel, UserView, QuestionView, ResultView, TopUsersView) {
   'use strict';
 
   var routerManager = function() {
     var that = {};
 
     var quizMainContainer = $("#quizmain");
-    var currentView;
+    var topUsersContainer = $("#topusers");
+    
+    var currentUser = new User({});
 
-    var userModel = new User({});
+    var currentMainView;
     var quizView = new QuestionView(quizMainContainer);
+    var topUserView = new TopUsersView({
+      container: topUsersContainer
+    });
+
+    var topUsersViewModel = new TopUsersViewModel(topUserView);
 
     that.routes = {
       '': 'index',
@@ -24,38 +34,39 @@ function ($, Backbone, User, UserView, QuestionView, ResultView) {
       'result': 'result'
     }
 
-    var showView = function(view, renderParam) {
-      if (currentView) {
-        currentView.remove();
-        currentView.unbind();
+    var showMainView = function(view, renderParam) {
+      if (currentMainView) {
+        currentMainView.remove();
+        currentMainView.unbind();
       }
 
-      currentView = view;
-      currentView.delegateEvents();
-      currentView.render(renderParam);
+      currentMainView = view;
+      currentMainView.delegateEvents();
+      currentMainView.render(renderParam);
     }
     
     that.index = function() {
-      userModel = new User({}); //restart user state
+      currentUser = new User({}); //restart user state
+      topUsersViewModel.addCandidate(currentUser);
       quizView = new QuestionView(quizMainContainer); //restart quizview state  
       
-      showView(new UserView({
-        model: userModel,
+      showMainView(new UserView({
+        model: currentUser,
         container: quizMainContainer
-      }));
+      }));      
     }
 
     that.question = function(id) {
-       showView(quizView, {
-         user: userModel,
+       showMainView(quizView, {
+         user: currentUser,
          questionId: Number.valueOf()(id)
        });
     }
 
     that.result = function() {
-       showView(new ResultView({
+       showMainView(new ResultView({
          container: quizMainContainer,
-         user: userModel
+         user: currentUser
        }));
     }
 

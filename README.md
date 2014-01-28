@@ -1,4 +1,4 @@
-# AC Challenge - BackboneJS [![Build Status](https://api.travis-ci.org/rafaelrocha/ac_challenge_backbonejs.png)](https://api.travis-ci.org/rafaelrocha/ac_challenge_backbonejs.png)
+# AC Challenge - BackboneJS [![Build Status](https://api.travis-ci.org/rafaelrocha/ac_challenge_backbonejs.png)](https://travis-ci.org/rafaelrocha/ac_challenge_backbonejs/builds)
 
 
 Setting development environment up

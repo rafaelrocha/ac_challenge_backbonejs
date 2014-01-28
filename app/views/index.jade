@@ -4,7 +4,6 @@ block content
   script(type="text/javascript").
     window.user = !{user};
 
-  
   nav.top-bar(data-top-bar)
     ul.title-area
       li.name
@@ -12,68 +11,78 @@ block content
           a(href="#") AC Quiz
 
   section
-    section#quizmain
+    div.row
+      div.large-9.columns
+        section#quizmain
+      div.large-3.columns
+        section#topusers
+
+  script#top-users-template(type="text/x-handlebars-template").
+    <h4>Top Five Users!</h4>
+      <div class="panel radius">
+        {{#each this}}
+        <dl>
+          <dt>{{name}} <span class="success label round radius right">100</span></dt>
+          <dd>{{email}}</dd>
+        </dl>
+        {{/each}}
+        <a href="#" class="button tiny alert">Clear all</a>
+      </div>
 
   script#user-template(type="text/x-handlebars-template").
-    <div class="row">
-      <h2>Login</h2>
-      <form>
-        <fieldset>
-          <legend>Fill out your name and email to start the quiz.</legend>
-          
-          <label>Name
-            <input type="text" id="name" class="error"/>
-            <small class="error" id="nameInvalid"></small>
-          </label>
+    <h2>Login</h2>
+    <form>
+      <fieldset>
+        <legend>Fill out your name and email to start the quiz.</legend>
+        
+        <label>Name
+          <input type="text" id="name" class="error"/>
+          <small class="error" id="nameInvalid"></small>
+        </label>
 
-          <label>Email
-            <input type="text" id="email" class="error"/>
-            <small class="error" id="emailInvalid"></small>
-          </label>
+        <label>Email
+          <input type="text" id="email" class="error"/>
+          <small class="error" id="emailInvalid"></small>
+        </label>
 
-        </fieldset>
-      </form>
-      <a id="start" class="button">Start</a>
-    </div>
+      </fieldset>
+    </form>
+    <a id="start" class="button">Start</a>
 
   script#question-template(type="text/x-handlebars-template").
-    <div class="row">
-      <h2>Question {{id}} </h2>
-      <div>
-        <p> {{description}} </p>
-        {{#each optionns}}
-          <label class="option" id="{{id}}">
-            <input type="checkbox"/>{{description}}
-          </label>
-        {{/each}}
-      </div>
-      <div>
-        <button id="back" class="button alert">Back</button>
-        <button id="finish" class="button alert">Finish</button>
-        <button id="next" class="button">Next</button>
-      </div>
+    <h2>Question {{id}} </h2>
+    <div>
+      <p> {{description}} </p>
+      {{#each optionns}}
+        <label class="option" id="{{id}}">
+          <input type="checkbox"/>{{description}}
+        </label>
+      {{/each}}
+    </div>
+    <div>
+      <button id="back" class="button alert">Back</button>
+      <button id="finish" class="button alert">Finish</button>
+      <button id="next" class="button">Next</button>
     </div>
 
   script#result-template(type="text/template").
-    <div class="row">
-      <h2>Result!</h2>
-      <% _.each(answeredQuestions, function(question) { %>
-      <div>
-        <p><%= question.get("description") %></p>
+    <h2>Result!</h2>
+    <% _.each(answeredQuestions, function(question) { %>
+    <div>
+      <p><%= question.get("description") %></p>
 
-        <% _.each(question.get("optionns").models, function(option) { %>
-          <label class="option" id="<%=option.get('id')%>">
-            <% if (option.isCorrect()) { %>
-              <span>✔</span>
-            <% } else { %>
-              <span>✘</span>
-            <% } %>
-            <input type="checkbox" disabled <% if (option.get("answered")) { print("checked") } %>/> 
-            <%=option.get("description")%>
-          </label>
-        <% }); %>
-        <p><span>✔ <%= question.correctAnswersInPercentage() * 100%>%</span></p>
-      </div>
-      <br>
+      <% _.each(question.get("optionns").models, function(option) { %>
+        <label class="option" id="<%=option.get('id')%>">
+          <% if (option.isCorrect()) { %>
+            <span>✔</span>
+          <% } else { %>
+            <span>✘</span>
+          <% } %>
+          <input type="checkbox" disabled <% if (option.get("answered")) { print("checked") } %>/> 
+          <%=option.get("description")%>
+        </label>
       <% }); %>
+      <p><span>✔ <%= question.correctAnswersInPercentage() * 100%>%</span></p>
     </div>
+    <br>
+    <% }); %>

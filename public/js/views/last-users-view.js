@@ -8,7 +8,7 @@ define([
 function ($, Backbone, Handlebars, BackboneHandlebars, Users) {
   'use strict';
 
-  var TopUsersView = Backbone.View.extend({
+  var LastUsersView = Backbone.View.extend({
 
     events: {
     },
@@ -21,8 +21,8 @@ function ($, Backbone, Handlebars, BackboneHandlebars, Users) {
       this.model = options.model;
 
       var that = this;
-      Backbone.on('users:top:changed', function(topFiveUsers) {
-        that.model = topFiveUsers;
+      Backbone.on('users:last:changed', function(lastFiveUsers) {
+        that.model = lastFiveUsers;
         that.render();
       });
     },
@@ -30,7 +30,7 @@ function ($, Backbone, Handlebars, BackboneHandlebars, Users) {
     render: function () {
       var template = Handlebars.compile($('#top-users-template').html());
       this.$el.html(template({
-        title: 'Top Five Users!',
+        title: 'Last Five Users!',
         user: this.model
       }));
       this.container.html(this.$el);
@@ -39,6 +39,6 @@ function ($, Backbone, Handlebars, BackboneHandlebars, Users) {
     },
   });
 
-  return TopUsersView;
+  return LastUsersView;
 
  });

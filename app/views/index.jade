@@ -15,12 +15,17 @@ block content
       div.large-9.columns
         section#quizmain
       div.large-3.columns
-        section#topusers
+        div.row
+          div.large-12
+            section#topusers
+        div.row
+          div.large-12
+            section#lastusers
 
   script#top-users-template(type="text/x-handlebars-template").
-    <h4>Top Five Users!</h4>
+    <h4>{{title}}</h4>
       <div class="panel radius">
-        {{#each this}}
+        {{#each user}}
         <dl>
           <dt>{{name}} <span class="success label round radius right">100</span></dt>
           <dd>{{email}}</dd>

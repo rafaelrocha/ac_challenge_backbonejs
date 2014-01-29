@@ -8,18 +8,26 @@ function(Backbone, Users) {
 		var that = {};
 
 		var topFiveUsers = new Users();
+		var lastFiveUser = new Users();
 
 		topFiveUsers.on('change', function(user) {
-			//select the first 5 best user scores
-
-			topFiveUsers.add(user);
-
-			topUsersView.model = topFiveUsers;
-			topUsersView.render();
+			Backbone.trigger('users:top:changed', topFiveUsers);
 		});
+
+		lastFiveUser.on('change', function(user) {
+			Backbone.trigger('users:last:changed', lastFiveUser);
+		});
+
+		var addLastUser = function(user) {
+			if (lastFiveUser.length == 5) {
+				lastFiveUser.pop();
+			}
+			lastFiveUser.add(user, {at: 0});
+		}
 
 		that.addCandidate = function(user) {
 			topFiveUsers.add(user);
+			addLastUser(user);
 		};
 
 		return that;

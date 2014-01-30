@@ -10,6 +10,11 @@ function(Backbone, Users) {
 		var topFiveUsers = new Users();
 		var lastFiveUser = new Users();
 
+
+		lastFiveUser.comparator = function(userOne, userTwo) {
+			return userOne.correctAnswersInPercentage() > userTwo.correctAnswersInPercentage() ? 1 : -1;
+		};
+
 		topFiveUsers.on('change', function(user) {
 			Backbone.trigger('users:top:changed', topFiveUsers);
 		});
@@ -27,7 +32,8 @@ function(Backbone, Users) {
 
 		that.addCandidate = function(user) {
 			topFiveUsers.add(user);
-			addLastUser(user);
+			lastFiveUser.add(user);
+			//addLastUser(user);
 		};
 
 		return that;

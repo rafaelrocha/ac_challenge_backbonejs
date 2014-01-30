@@ -22,15 +22,21 @@ block content
           div.large-12
             section#lastusers
 
-  script#top-users-template(type="text/x-handlebars-template").
-    <h4>{{title}}</h4>
+  script#top-users-template(type="text/template").
+    <h4><%= title %></h4>
       <div class="panel radius">
-        {{#each user}}
+        <% _.each(users, function(user) { %>
         <dl>
-          <dt>{{name}} <span class="success label round radius right">100</span></dt>
-          <dd>{{email}}</dd>
+          <% var userScore = user.correctAnswersInPercentage(); %>
+          <dt>
+            <%= user.get("name") %>
+            <% if(userScore) { %>
+              <span class="success label round radius right"><%= userScore %></span>
+            <% } %>
+          </dt>
+          <dd><%= user.get("email") %></dd>
         </dl>
-        {{/each}}
+        <% }) %>
         <a href="#" class="button tiny alert">Clear all</a>
       </div>
 

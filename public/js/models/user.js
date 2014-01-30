@@ -27,6 +27,22 @@ function (Backbone, Question, Questions) {
         	return false;
         },
 
+        correctAnswersInPercentage: function() {
+          var answers = this.get("answers");
+          var quantityOfAnswers = answers.length;
+          var answerPercentageCount = 0;
+
+          if (quantityOfAnswers === 0) {
+            return undefined;
+          }
+
+          _.each(answers.models, function(answer) {
+            answerPercentageCount = answerPercentageCount + answer.correctAnswersInPercentage();
+          })
+
+          return  (answerPercentageCount / quantityOfAnswers).toFixed(2) * 100;
+        },
+
         validateName: function() {
           if (!this.get("name")) {
             this.set("nameInvalid", "Please fill out your name.");

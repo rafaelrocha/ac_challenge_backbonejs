@@ -28,13 +28,13 @@ function ($, Backbone, Handlebars, BackboneHandlebars, Users) {
     },
 
     render: function () {
-      var template = Handlebars.compile($('#top-users-template').html());
-      this.$el.html(template({
+      var template = _.template($('#top-users-template').html(), {
         title: 'Last Five Users!',
-        user: this.model
-      }));
-      this.container.html(this.$el);
+        users: this.model.models
+      });
 
+      this.$el.html(template);
+      this.container.html(this.$el);
       return this;
     },
   });

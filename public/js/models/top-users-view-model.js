@@ -4,6 +4,7 @@ define([
 ], 
 function(Backbone, Users) {
 
+	//todo: split this in two objects, top and last users
 	var TopUsersViewModel = function(topUsersView) {
 		var that = {};
 

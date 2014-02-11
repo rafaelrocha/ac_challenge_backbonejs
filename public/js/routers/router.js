@@ -7,10 +7,9 @@ define([
   'views/user-view',
   'views/question-view',
   'views/result-view',
-  'views/top-users-view',
-  'views/last-users-view'
+  'views/top-users-view'
 ],
-function ($, Backbone, User, Users, TopUsersViewModel, UserView, QuestionView, ResultView, TopUsersView, LastUsersView) {
+function ($, Backbone, User, Users, TopUsersViewModel, UserView, QuestionView, ResultView, TopUsersView) {
   'use strict';
 
   var routerManager = function() {
@@ -18,7 +17,6 @@ function ($, Backbone, User, Users, TopUsersViewModel, UserView, QuestionView, R
 
     var quizMainContainer = $("#quizmain");
     var topUsersContainer = $("#topusers");
-    var lastUsersContainer = $("#lastusers");
     
     var currentUser = new User({});
 
@@ -26,9 +24,6 @@ function ($, Backbone, User, Users, TopUsersViewModel, UserView, QuestionView, R
     var quizView = new QuestionView(quizMainContainer);
     var topUsersView = new TopUsersView({
       container: topUsersContainer
-    });
-    var lastUsersView = new LastUsersView({
-      container: lastUsersContainer
     });
 
     var topUsersViewModel = new TopUsersViewModel(topUsersView);
